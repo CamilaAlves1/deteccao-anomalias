@@ -181,9 +181,12 @@ honeypot_singapore['day'] = honeypot_singapore['time'].dt.dayofweek
 # Seleção das features
 honeypot_features = selecionar_features(honeypot_singapore, "Honeypot", ['hour', 'day'])
 
-# Criando rótulos reais para Honeypot (0 = normal, 1 = anômalo)
-normal_samples = len(honeypot_singapore) // 2  # Ajustando para metade do total de amostras (normal e anômalo)
-anomaly_samples = len(honeypot_singapore) // 2  # O total de amostras será metade de normais e metade de anômalos
+# Criando rótulos reais para Honeypot (0 = normal, 1 = anômalo) de acordo com o
+# número de amostras após a seleção de features (para evitar inconsistências de
+# tamanho caso haja remoção de linhas com valores faltantes).
+num_samples = len(honeypot_features)
+normal_samples = num_samples // 2
+anomaly_samples = num_samples - normal_samples
 honeypot_labels = np.array([0]*normal_samples + [1]*anomaly_samples)  # 0 = normal, 1 = anômalo
 
 # Passando os rótulos reais para a função
