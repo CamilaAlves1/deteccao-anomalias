@@ -164,7 +164,9 @@ def selecionar_features(df, base_name, colunas_base):
             features['Location'] = df[loc_col].astype('category').cat.codes
             break
 
-    return features.dropna()
+    # Preencher valores faltantes para manter o mesmo tamanho do dataset e
+    # evitar inconsistências de comprimento entre features e rótulos
+    return features.fillna(0)
 
 # =======================
 # CARGA DE DADOS E PRÉ-PROCESSAMENTO
